@@ -1,0 +1,52 @@
+ldap {
+	server = "<%= @server.join(',') %>"
+	port = <%= @port %>
+
+<% if @identity and @password -%>
+	identity = "<%= @identity %>"
+	password = <%= @password %>
+<% end -%>
+
+	base_dn = "<%= @base_dn %>"
+
+	update {
+<% @foo.each do |foo| -%>
+		<%= foo %>
+<% end -%>
+	}
+
+	#valuepair_attribute = ""
+
+	#edir = no
+
+	#edir_autz = no
+
+	user {
+		base_dn = "${..base_dn}"
+		filter = "(uid=%{%{Stripped-User-Name}:-%{User-Name}})"
+		scope = 'sub'
+<% if @access_attribute -%>
+		access_attribute = "<%= @access_attribute %>"
+		access_positive = yes
+<% end -%>
+	}
+
+	group {
+		base_dn = "${..base_dn}"
+		filter = "(objectClass=posixGroup)"
+		scope = 'sub'
+	}
+
+	profile {
+	}
+
+	pool {
+		start = <%= @pool_start %>
+		min = <%= @pool_min %>
+		max = <%= @pool_max %>
+		spare = <%= @pool_spare %>
+		uses = <%= @pool_uses %>
+		lifetime = <%= @pool_lifetime %>
+		idle_timeout = <%= @pool_idle_timeout %>
+	}
+}

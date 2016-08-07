@@ -1,0 +1,5 @@
+
+<%= @name %><% if ! @check_items.empty? %> <%= @check_items.join(', ') %><% end %>
+<% if ! @reply_items.empty? -%>
+	<%= @reply_items.join(",\n\t") %>
+<% end -%>
